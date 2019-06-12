@@ -1,0 +1,122 @@
+{% extends "base.html.twig" %}
+{% block body %}
+
+    {% for message in app.flashes('alert') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Oh no! Something was wrong:</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+
+    <h1>Property Search</h1>
+
+    <div class="col-md-10">
+        {{ form_start(form, {'attr': {'id': 'searchForm' }}) }}
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-2 control-label">{{ form_label(form.location) }}</label>
+                <div class="col-sm-10">
+                    {{ form_widget(form.location, { 'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2"> {{ form_label(form.nearBeach) }}</div>
+                <div class="col-sm-4">
+                    <div class="form-check">
+                        {{ form_widget(form.nearBeach, { 'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+
+                <div class="col-sm-2"> {{ form_label(form.acceptsPets) }}</div>
+                <div class="col-sm-4">
+                    <div class="form-check">
+                        {{ form_widget(form.acceptsPets, { 'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2"> {{ form_label(form.sleeps) }}</div>
+                <div class="col-sm-4">
+                    <div class="form-check">
+                        {{ form_widget(form.sleeps, { 'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+
+                <div class="col-sm-2"> {{ form_label(form.beds) }}</div>
+                <div class="col-sm-4">
+                    <div class="form-check">
+                        {{ form_widget(form.beds, { 'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2"> {{ form_label(form.startDate) }}</div>
+                <div class="col-sm-4">
+                    <div class="form-check">
+                        {{ form_widget(form.startDate, { 'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+
+                <div class="col-sm-2"> {{ form_label(form.endDate) }}</div>
+                <div class="col-sm-4">
+                    <div class="form-check">
+                        {{ form_widget(form.endDate, { 'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-primary'}} ) }}
+                </div>
+            </div>
+        </form>
+
+        {{ form_end(form) }}
+    </div>
+
+    <div class="col-md-10">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Property Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Near Beach</th>
+                <th scope="col">Accept Pets</th>
+                <th scope="col">Sleeps</th>
+                <th scope="col">Beds</th>
+                <th scope="col">Availabilty</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if properties|length > 0 %}
+                {% for property in properties %}
+                    <tr>
+                        <td>{{ property.p_propertyName }}</td>
+                        <td>{{ property.l_locationName }}</td>
+                        <td>{{ property.p_nearBeach ? 'Yes' : 'No' }}</td>
+                        <td>{{ property.p_acceptsPets ? 'Yes' : 'No' }}</td>
+                        <td>{{ property.p_sleeps }}</td>
+                        <td>{{ property.p_beds }}</td>
+                        <td>Yes</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan='7'>No records found</td>
+                </tr>
+            {% endif %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>{{ knp_pagination_render(properties) }}</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}
